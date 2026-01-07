@@ -6,8 +6,8 @@ on:
     - 'v*'
 
 env:
-  REGISTRY: quay.io
-  IMAGE_NAME: argoprojlabs/argocd-extension-installer
+  REGISTRY: docker.io
+  IMAGE_NAME: battira1/argocd-rollouts-extension
 
 jobs:
   build-and-push-image:
@@ -34,13 +34,11 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3
 
-    - name: Log in to the Container registry
+    - name: Log in to Docker Hub
       uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3
       with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ secrets.QUAY_USERNAME }}
-        password: ${{ secrets.QUAY_TOKEN }}
-
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Build and push Docker image
       uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5
       with:
