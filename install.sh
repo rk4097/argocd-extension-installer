@@ -107,7 +107,9 @@ fi
 ext_version="${EXTENSION_VERSION:-}"
 ext_url="${EXTENSION_URL:-}"
 extension_proxy_username="${EXTENSION_PROXY_USERNAME:-}"
+set +x
 extension_proxy_token="${EXTENSION_PROXY_TOKEN:-}"
+set -x
 if [ "$ext_url" = "" ]; then
     echo "error: the env var EXTENSION_URL must be provided"
     exit 1
