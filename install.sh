@@ -33,8 +33,8 @@ trap finalizer EXIT
 download_extension() {
     mkdir -p $download_dir
     echo "Downloading the UI extension..."
+    set +x
     if [ "$extension_proxy_username" != "" ] && [ "$extension_proxy_token" != "" ]; then
-      set +x
       echo "Using proxy credentials to download the extension"
       curl -Lf --max-time $download_max_sec -u $extension_proxy_username:$extension_proxy_token $ext_url -o $ext_file
       set -x
