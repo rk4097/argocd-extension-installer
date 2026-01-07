@@ -33,7 +33,11 @@ trap finalizer EXIT
 download_extension() {
     mkdir -p $download_dir
     echo "Downloading the UI extension..."
-    curl -Lf --max-time $download_max_sec $ext_url -o $ext_file
+    if [ "$extension_proxy_username" != "" ] && [ "$extension_proxy_token" != "" ]; then
+      curl -Lf --max-time $download_max_sec -u $extension_proxy_username:$extension_proxy_token $ext_url -o $ext_file
+    else
+      curl -Lf --max-time $download_max_sec $ext_url -o $ext_file
+    fi
     if [ "$checksum_url" != "" ]; then
         echo "Validating the UI extension checksum..."
         expected_sha=$(curl -Lf $checksum_url | grep "$ext_filename" | awk '{print $1;}')
@@ -99,6 +103,8 @@ fi
 
 ext_version="${EXTENSION_VERSION:-}"
 ext_url="${EXTENSION_URL:-}"
+extension_proxy_username="${EXTENSION_PROXY_USERNAME:-}"
+extension_proxy_token="${EXTENSION_PROXY_TOKEN:-}"
 if [ "$ext_url" = "" ]; then
     echo "error: the env var EXTENSION_URL must be provided"
     exit 1
